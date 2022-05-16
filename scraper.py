@@ -18,9 +18,5 @@ class Scrapper:
         emails = set(re.findall(EMAIL_REGEX, soup))
         email_list = list(emails)
 
-        print(email_list)
+        return email_list
 
-
-if __name__ == '__main__':
-    sc = Scrapper("https://www.nichi.com/contact-us/")
-    sc.scrapping()

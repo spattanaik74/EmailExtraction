@@ -1,15 +1,21 @@
-import tkinter
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, filedialog
 from tkinter.scrolledtext import ScrolledText
 import os
-import time
+import pandas as pd
+import scraper
 
 
 def openFolder():
-    path= 'C:'
-    command = 'explorer.exe ' + path
-    os.system(command)
+    currdir = os.getcwd()
+    tempdir = filedialog.askopenfilename(parent=window, initialdir=currdir, title='Pleas select')
+    if len(tempdir) > 0:
+        text.configure(state='normal')
+        text.insert(END, f'file added' + '\n')
+        text.insert(END, f'PATH: {tempdir}' + '\n')
+        text.configure(state='disable')
+    df = pd.read_csv(f'{tempdir}')
+    return df.to_string()
 
 
 window=Tk()
@@ -33,9 +39,11 @@ text.configure(state='disabled')
 text.place(x= 10, y=80)
 
 def startcommand():
-    for i in range(1, 101):
+    s = scraper.Scrapper("https://www.nichi.com/contact-us/")
+    save = s.scrapping()
+    for i in save:
         text.configure(state='normal')
-        text.insert(END, f'website {i} .......completed' + '\n')
+        text.insert(END, f'website {i}........ scraped' + '\n')
         text.configure(state='disable')
 
 
